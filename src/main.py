@@ -22,3 +22,5 @@ def database_connection():
     DB_PASS_DECRYPTED = boto3.client("kms").decrypt(CiphertextBlob=cipherTextBlob)[
         "Plaintext"
     ]
+
+    print(DB_HOST, DB_USER, DB_PASS_DECRYPTED)
