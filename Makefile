@@ -7,4 +7,10 @@ lint:
 test:
 	@poetry run pytest tests/
 
-.PHONY: install test lint
+terraform-init:
+	@terraform init
+
+terraform-plan:
+	@terraform plan
+
+.PHONY: install test lint terraform-plan terraform-init
