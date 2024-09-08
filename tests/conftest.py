@@ -1,14 +1,17 @@
 from pytest import fixture
+import sqlalchemy
 from testcontainers.postgres import PostgresContainer
+from sqlalchemy.orm import Session
+from src.main import Base, User
 
 
 @fixture
 def event():
-    return {"documentNumber": "documentNumber", "password": "password"}
+    return {"documentNumber": "123", "password": "123"}
 
 
 @fixture
-def postgre_container(monkeypatch):
+def postgres_client(monkeypatch):
     db_user = "test"
     db_pass = "test"
     db_name = "test"
@@ -23,4 +26,23 @@ def postgre_container(monkeypatch):
         monkeypatch.setenv("DB_TABLE", db_name)
         monkeypatch.setenv("DB_PASS", db_pass)
 
-        yield
+        engine = sqlalchemy.create_engine(postgres.get_connection_url())
+        Base.metadata.create_all(engine)
+
+        yield engine
+
+
+@fixture
+def postgres_session(postgres_client):
+    with Session(postgres_client) as session:
+        yield session
+
+
+@fixture
+def db_valida_user(postgres_session):
+    user = User(document_number="123", password="123")
+
+    postgres_session.add(user)
+    postgres_session.commit()
+
+    return user
