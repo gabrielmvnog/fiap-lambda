@@ -1,13 +1,4 @@
 terraform {
-
-  cloud { 
-    organization = "gmnog-tests" 
-
-    workspaces { 
-      name = "gmnog-tests" 
-    } 
-  } 
-
   required_providers {
     aws = {
       source  = "hashicorp/aws"

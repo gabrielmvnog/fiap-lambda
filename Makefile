@@ -8,9 +8,9 @@ test:
 	@poetry run pytest tests/
 
 terraform-init:
-	@terraform init
+	@terraform -chdir=terraform init
 
 terraform-plan:
-	@terraform plan
+	@terraform -chdir=terraform plan
 
 .PHONY: install test lint terraform-plan terraform-init
