@@ -1,6 +1,7 @@
 import os
 from base64 import b64decode
 import boto3
+import sqlalchemy
 
 
 def lambda_handler(event, context) -> bool:
@@ -16,11 +17,9 @@ def lambda_handler(event, context) -> bool:
 def database_connection():
     DB_HOST = os.environ["DB_HOST"]
     DB_USER = os.environ["DB_USER"]
+    DB_TABLE = os.environ["DB_TABLE"]
+    DB_PASS = os.environ["DB_PASS"]
 
-    DB_PASS_ENCRYPTED = os.environ["DB_PASS"]
-    cipherTextBlob = b64decode(DB_PASS_ENCRYPTED)
-    DB_PASS_DECRYPTED = boto3.client("kms").decrypt(CiphertextBlob=cipherTextBlob)[
-        "Plaintext"
-    ]
-
-    print(DB_HOST, DB_USER, DB_PASS_DECRYPTED)
+    return sqlalchemy.create_engine(
+        f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_TABLE}"
+    )
