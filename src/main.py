@@ -23,8 +23,8 @@ def lambda_handler(event, context) -> bool:
     document_number = event["documentNumber"]
     password = event["password"]
 
-    session = database_connection()
-    return find_user(session, document_number, password)
+    with database_connection() as session:
+        return find_user(session, document_number, password)
 
 
 def database_connection():

@@ -18,9 +18,13 @@ class TestMain:
         with patch(
             "src.main.database_connection",
             return_value=MagicMock(
-                execute=MagicMock(
+                __enter__=MagicMock(
                     return_value=MagicMock(
-                        scalar_one=MagicMock(side_effect=NoResultFound)
+                        execute=MagicMock(
+                            return_value=MagicMock(
+                                scalar_one=MagicMock(side_effect=NoResultFound)
+                            )
+                        )
                     )
                 )
             ),
