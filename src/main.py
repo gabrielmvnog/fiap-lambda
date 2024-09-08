@@ -1,6 +1,4 @@
 import os
-from base64 import b64decode
-import boto3
 import sqlalchemy
 
 
