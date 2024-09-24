@@ -2,10 +2,10 @@ install:
 	@poetry install
 
 lint:
-	@poetry run ruff check src/
+	@poetry run ruff check lambda/src/
 
 test:
-	@poetry run pytest tests/
+	@poetry run pytest lambda/tests/
 
 terraform-init:
 	@terraform -chdir=terraform init
